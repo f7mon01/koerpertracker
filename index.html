@@ -2,14 +2,46 @@
 <html lang="de">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Körper-Tracker</title>
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <meta name="apple-mobile-web-app-title" content="Körper-Tracker">
-  <meta http-equiv="refresh" content="0; url=https://script.google.com/macros/s/AKfycbwRow1VlTzKPSN6pZrs7ezVHnap36-n0g4u0Dpf-HYZSTrpundDQEywSnwdHzbKaR_2yg/exec">
-  <style>body{background:#14203c;color:#fff;font-family:-apple-system,sans-serif;text-align:center;padding-top:40vh}</style>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <style>
+    html, body { margin:0; height:100%; background:#14203c; overflow:hidden; }
+    iframe { border:0; width:100%; height:100%; display:block;
+             padding-top:env(safe-area-inset-top); box-sizing:border-box; }
+    #codeBox { color:#fff; font-family:-apple-system,sans-serif; text-align:center; padding-top:35vh; }
+    #codeBox input { font-size:18px; padding:10px; border-radius:10px; border:0; width:70%; }
+    #codeBox button { margin-top:12px; font-size:18px; padding:10px 24px; border-radius:10px; border:0;
+                      background:#50e6aa; color:#14203c; font-weight:600; }
+  </style>
 </head>
 <body>
-  <a href="https://script.google.com/macros/s/AKfycbwRow1VlTzKPSN6pZrs7ezVHnap36-n0g4u0Dpf-HYZSTrpundDQEywSnwdHzbKaR_2yg/exec" style="color:#50e6aa">Körper-Tracker öffnen …</a>
+  <div id="codeBox" style="display:none">
+    <p>Zugangscode eingeben</p>
+    <input id="codeInput" type="password" autocomplete="off"><br>
+    <button onclick="saveCode()">Öffnen</button>
+  </div>
+  <script>
+    var APP_URL = 'https://script.google.com/macros/s/AKfycbwRow1VlTzKPSN6pZrs7ezVHnap36-n0g4u0Dpf-HYZSTrpundDQEywSnwdHzbKaR_2yg/exec';
+    function getCode() { try { return localStorage.getItem('kt_code'); } catch (e) { return null; } }
+    function saveCode() {
+      var c = document.getElementById('codeInput').value.trim();
+      if (!c) return;
+      try { localStorage.setItem('kt_code', c); } catch (e) {}
+      start(c);
+    }
+    function start(code) {
+      document.getElementById('codeBox').style.display = 'none';
+      var f = document.createElement('iframe');
+      f.src = APP_URL + '?key=' + encodeURIComponent(code);
+      document.body.appendChild(f);
+    }
+    var code = getCode();
+    if (code) start(code); else document.getElementById('codeBox').style.display = 'block';
+  </script>
 </body>
 </html>
